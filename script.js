@@ -1,9 +1,17 @@
-let title = "Git";
-const screens = 4;
-let screenPrice = 15.44;
+let title = "project1";
+const screens = "Простые, Сложные, Интерактивные";
+let screenPrice = 500;
 let rollback = 3;
-let fullPrice = 20.25;
+let fullPrice = 1000;
 let adaptive = true;
 
-alert("learning Git");
-console.log("learning Git");
+console.log(typeof(title), typeof(fullPrice), typeof(adaptive));
+console.log(screens.length);
+console.log(`${screenPrice}$`);
+console.log(`${fullPrice}$`);
+console.log(screens.toLowerCase().split(","));
+console.log(`${fullPrice*(rollback/100)}%`);
+
+
+
+
