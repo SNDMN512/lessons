@@ -8,22 +8,57 @@ let service1 = prompt("Какой дополнительный тип услуг
 let servicePrice1 = +prompt("Сколько это будет стоить?");
 let service2 = prompt("Какой дополнительный тип услуги нужен?");
 let servicePrice2 = +prompt("Сколько это будет стоить?");
-let fullPrice = screenPrice + servicePrice1 + servicePrice2;
-let servicePercentPrice = fullPrice > 30000 ? Math.ceil(fullPrice - fullPrice/100*10) : fullPrice <= 15000 && fullPrice >= 30000 ? Math.ceil(fullPrice - fullPrice/100*5) : fullPrice;
 
+const showTypeof = function(variable) {
+    return `${variable} ${typeof variable}`;
+    
+}
 
-fullPrice > 30000 ? console.log("Даем скидку в 10%") : fullPrice <= 15000 && fullPrice >= 30000 ? console.log("Даем скидку в 5%") : 
-fullPrice > 0 && fullPrice < 15000 ? console.log("Скидка не предусмотрена") : console.log("Что-то пошло не так");
+const getRollbackMessage = function(price) {
+    if (price > 30000) {
+        return "Даем скидку в 10%"
+    } else if (price >= 15000 && fullPrice <= 30000) {
+    return "Даем скидку в 5%"
+    } else if (price >= 0 && fullPrice < 15000) {
+    return "Скидка не предусмотрена"
+    } else {
+    return "Что-то пошло не так"
+    }
 
+}
 
-console.log(typeof title);
-console.log(typeof screenPrice);
-console.log(typeof adaptive);
+const allServicePrices = function (price1, price2) {
+    return price1 + price2
+}
+    
+const getAllServicePrices = allServicePrices(servicePrice1, servicePrice2);
 
-console.log(screens.length);
-console.log(servicePercentPrice);
-console.log(`Стоимость вёрстки экрана ${screenPrice}$`);
+const getFullPrice = function () {
+    return screenPrice + getAllServicePrices
+}
 
+const fullPrice = getFullPrice(screenPrice, getAllServicePrices);
 
+const getTitle = function (str) {
+    const titleUpTrim = str.trim()[0].toUpperCase() + str.trim().slice(1).toLocaleLowerCase()
+    return titleUpTrim;
+}
 
+const getServicePercentPrices = function (price) {
+    if (price > 30000) {
+        return price - price/100*10
+    } else if (price >= 15000 && price <= 30000) {
+        return price - price/100*5
+    } else if (price >= 0 && price < 15000) {
+        return price
+    } else {
+        return "Что то пошло не так";
+    }
+}
 
+console.log(`Тип данных: ${showTypeof(title)}`);
+console.log(getTitle(title));
+console.log(`Стоимость вёрстки и дополнительных услуг без учёта скидки: ${fullPrice}`);
+console.log(`Стоимость дополнительных услуг: ${getAllServicePrices}`);
+console.log(getRollbackMessage(fullPrice));
+console.log(`Стоимость услуг с учётом скидки: ${getServicePercentPrices(fullPrice)}`);
