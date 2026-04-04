@@ -11,6 +11,7 @@ let service;
 let servicePrice;
 
 const isNumber = function (num) {
+    num = String(num).trim()
     return !isNaN(parseFloat(num)) && isFinite(num)
 }
 
