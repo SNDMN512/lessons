@@ -1,95 +1,70 @@
 "use strict";
 
-let title;
-let screens;
-let screenPrice;
-let adaptive;
-let allServicePrices;
-let fullPrice;
-let servicePercentPrice;
-let service;
-let servicePrice;
+let num = Math.floor(Math.random() * 100 + 1);
+let attempts = 10;
+let answer;
+ 
+const upperCase = function (text) {
+    return text.toUpperCase()
+ }
 
-const isNumber = function (num) {
-    num = String(num).trim()
-    return !isNaN(parseFloat(num)) && isFinite(num)
-}
-
-const asking = function () {
-    title = prompt("Как называется ваш проект?", "Калькулятор вёрстки")
-    screens = prompt("Какие типы экранов нужно разработать?", "Простые, сложные, комбинированные")
-    screenPrice = prompt("Сколько будет стоить данная работа?")
-
-    while (!isNumber(screenPrice)) {
-        screenPrice = prompt("Сколько будет стоить данная работа?")
+ const deflectAttempts = function () {
+    if (attempts == '1') {
+        return `осталась ${attempts} попытка!`
+    } else if (attempts >= 2 && attempts <= 4) {
+        return `осталось ${attempts} попытки!`
     }
+    return `осталось ${attempts} попыток!`
+ }
 
-    adaptive = confirm("Нужен ли адаптив на сайте?")
-}
-
-const getAllServicePrices = function () {
-    let sum = 0
-        
-    for (let i = 0; i < 2; i++) {
-        service = prompt("Какой дополнительный тип услуги нужен?")
-        servicePrice = prompt("Сколько это будет стоить?")
-        while (!isNumber(servicePrice)) {
-            prompt("Сколько это будет стоить?")
+function guessNumber (num) {
+    const welcome = alert(upperCase("добро пожаловать в игру!"))
+    const nameGame = alert(upperCase("угадайте число!"))
+    function nameTheNumber () {
+        while (attempts > 0) {
+            alert(upperCase(deflectAttempts()))
+            const playerNum = prompt("Назовите число от 1 до 100?", `Например, ${num}`)
+            attempts--
+            if (Number(attempts) > 0) {
+                if (!playerNum) {
+                    answer = alert(upperCase("игра окончена!"))
+                    break
+                } else if (!isNaN(parseInt(playerNum)) && isFinite(playerNum)) {
+                    if (playerNum > num) {
+                        answer = alert("Загаданное число меньше")
+                        nameTheNumber()
+                    } else if (playerNum < num) {
+                        answer = alert("Загаданное число больше")
+                        nameTheNumber()
+                    } else if (playerNum == num) {
+                        answer = alert(upperCase("поздравляю с победой!"))
+                        if (confirm(upperCase("Хотите сыграть ещё?"))) {
+                            num = Math.floor(Math.random() * 100 + 1)
+                            attempts = 10
+                            guessNumber(num)
+                        } else {
+                            answer = alert(upperCase("до скорых встреч!"))
+                        } break
+                    }
+                } else if (isNaN(parseInt(playerNum)) && !isFinite(playerNum)) {
+                    answer = alert(upperCase("Введите число!"))
+                    nameTheNumber()
+                }
+            } else {
+                answer = alert(upperCase("вы проиграли!"))
+                answer = alert(upperCase(`было загадано число ${num}`))
+                if (confirm(upperCase("Хотите сыграть ещё?"))) {
+                    num = Math.floor(Math.random() * 100 + 1)
+                    attempts = 10
+                    guessNumber(num)
+                } else {
+                    answer = alert(upperCase("до скорых встреч!"))
+                    break
+                }
+            } break
         }
-    sum += Number(servicePrice)
     }
-    return sum
+    nameTheNumber()
 }
-    
-const getFullPrice = function () {
-    return Number(screenPrice) + allServicePrices
-}
+guessNumber(num)
 
-const getServicePercentPrice = function (price) {
-    if (price > 30000) {
-        return price - price/100*10
-    } else if (price >= 15000 && price <= 30000) {
-        return price - price/100*5
-    } else if (price >= 0 && price < 15000) {
-        return price
-    } else {
-        return "Что то пошло не так";
-    }
-}
-
-const getTitle = function () {
-    const titleUpTrim = title.trim()[0].toUpperCase() + title.trim().slice(1).toLocaleLowerCase()
-    return titleUpTrim;
-}
-
-const showTypeof = function(variable) {
-    return `${variable} ${typeof variable}`;
-    
-}
-
-const getRollbackMessage = function(price) {
-    if (price > 30000) {
-        return "Даем скидку в 10%"
-    } else if (price >= 15000 && fullPrice <= 30000) {
-    return "Даем скидку в 5%"
-    } else if (price >= 0 && fullPrice < 15000) {
-    return "Скидка не предусмотрена"
-    } else {
-    return "Что-то пошло не так"
-    }
-}
-
-asking();
-allServicePrices = getAllServicePrices();
-fullPrice = getFullPrice();
-servicePercentPrice = getServicePercentPrice(fullPrice);
-title = getTitle();
-
-showTypeof(title);
-
-console.log(`Тип данных: ${showTypeof(title)}`);
-console.log(title);
-console.log(`Стоимость вёрстки и дополнительных услуг без учёта скидки: ${fullPrice}`);
-console.log(`Стоимость дополнительных услуг: ${allServicePrices}`);
-console.log(getRollbackMessage(fullPrice));
-console.log(`Стоимость услуг с учётом скидки: ${servicePercentPrice}`);
