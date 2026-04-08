@@ -23,13 +23,10 @@ function guessNumber (num) {
     const attemptsTotal = alert(upperCase(`у вас ${attempts} попыток`))
     function nameTheNumber () {
         while (attempts > 0) {
-            const playerNum = prompt("Назовите число от 1 до 100?", `Например, ${num}`)
+            const playerNum = prompt("Назовите число от 1 до 100?")
             attempts--
-            if (+attempts >= 0) {
-                if (!playerNum) {
-                    answer = alert(upperCase("игра окончена!"))
-                    break
-                } else if (!isNaN(parseInt(playerNum)) && isFinite(playerNum)) {
+            if (+attempts > 0) {
+                if (!isNaN(parseInt(playerNum)) && isFinite(playerNum)) {
                     if (playerNum > num) {
                         answer = alert("Загаданное число меньше")
                         alert(upperCase(deflectAttempts()))
@@ -53,7 +50,7 @@ function guessNumber (num) {
                     alert(upperCase(deflectAttempts()))
                     nameTheNumber()
                 }
-            } else {
+            } else if (+attempts == 0) {
                 answer = alert(upperCase("вы проиграли!"))
                 answer = alert(upperCase(`было загадано число ${num}`))
                 if (confirm(upperCase("Хотите сыграть ещё?"))) {
